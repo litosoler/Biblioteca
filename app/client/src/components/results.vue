@@ -4,7 +4,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<label class=" control-label">Buscar:</label>
-					<input type="text" class="form-control input">
+					<input type="text" class="form-control input" v-model="porBuscar">
 				</div>
 				<div class="col-sm-3">
 					<label class=" control-label">Ordenar:</label>
@@ -15,7 +15,7 @@
 					<input type="text" class="form-control input ">
 				</div>
 				<div>
-					<button id="buscar" class="col-sm-2 btn yellow" >Buscar</button>
+					<button id="buscar" class="col-sm-2 btn yellow" @click="buscar">Buscar</button>
 				</div>
 			</div>
 		</div>
@@ -92,11 +92,19 @@
 export default {
 	 data () {
       return {
+      	//se usan con el modal
         dialog: false,
         notifications: false,
         sound: true,
         widgets: false,
-        selec: {}
+        //propias
+        selec: {},
+        porBuscar: "",
+        //1:ASC, 2:Desc
+        ordenar: 1,
+        //1:autores, 2:bibliotecas, 3,libros
+        filtro: 3,
+
       }
     },
 	computed: {
@@ -109,6 +117,9 @@ export default {
 			this.$store.commit('guardarSeleccion', idLibro);
 			this.selec = this.$store.getters.seleccionado;
 			this.dialog = true;
+		},
+		buscar(){
+			alert("buscar:" + this.porBuscar);
 		}
 	}
 }
@@ -125,6 +136,7 @@ export default {
 	padding: 20px;
 	margin-top: 15px;
 	position: relative;
+	background-color: white;
 }
 .informacion{
 	padding: 0px 15px;
