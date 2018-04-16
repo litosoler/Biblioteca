@@ -1,13 +1,22 @@
 <template>
 	<!-- <search></search> -->
-	<results></results>	
+	<!-- <results></results> -->
+	<!-- <registro-cliente></registro-cliente> -->
+	<!-- <historial-compras></historial-compras> -->
+	<!-- <historial-prestamos></historial-prestamos> -->
+	<historial-puntos></historial-puntos>
+
 </template>
 
 <script>
 	import search from '@/components/search'
 	import results from '@/components/results'
+	import registroCliente from '@/components/registroCliente'
+	import historialPrestamos from '@/components/historialPrestamos'
+	import historialCompras from '@/components/historialCompras'
+	import historialPuntos from '@/components/historialPuntos'
 	export default{
-		components:{search, results},
+		components:{search, results, registroCliente, historialCompras, historialPrestamos, historialPuntos},
 	}
 </script>
 <style>

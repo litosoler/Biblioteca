@@ -1,0 +1,39 @@
+create proc usp_ultimaPersona(@resultado int output) as
+select @resultado = MAX(idPersona) from Personas;
+
+
+create proc usp_ultimaDireccion(@resultado int output) as
+select @resultado = MAX(idDireccion) from Direcciones;
+
+create proc usp_insertarCliente 
+	@idGenero int, @direccion varchar(100), @idCiudad int, @pNombre varchar(50),
+	@sNombre varchar(50), @pApellido varchar(50), @sApellido varchar(50), @fechaNacimiento datetime, 
+	@identidad varchar(50), @correoElectronico varchar(50), @contrasena varchar(20)
+as
+
+begin try
+	begin tran
+
+		insert into Direcciones(descripcion, idCiudad)
+		values (@direccion, @idCiudad);
+
+		declare @idDireccion int
+		exec usp_ultimaDireccion @idDireccion output
+
+		insert into Personas(idGenero, idDireccion , Pnombre, sNombre, pApellido, sApellido, fechaNacimiento, identidad, correoElectronico, contrasena)
+		values (@idGenero, @idDireccion, @pNombre, @sNombre, @pApellido, @sApellido, @fechaNacimiento, @identidad, @correoElectronico, @contrasena );
+
+		declare @idPersona int
+		exec usp_ultimaPersona @idPersona output
+
+		declare @fechaRegistro datetime
+		set @fechaRegistro = getdate()
+
+		insert into Clientes(fechaRegistro, idPersona)
+		values (@fechaRegistro, @idPersona)
+	commit
+end try
+begin catch
+	rollback
+	print error_message()
+end catch
