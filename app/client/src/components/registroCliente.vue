@@ -28,10 +28,10 @@
       <input type="text" class="form-control" id="telefono" v-model="telefono" required="">
     </div>
     <div class="form-group col-md-3">
-      <label for="fechaNacimiento">Genero:</label>
-      <select id="pais" class="form-control" required>
+      <label for="genero">Genero:</label>
+      <select id="genero" class="form-control" required v-model="genero">
         <option  value="">Choose...</option>
-        <option value="eje">...</option>
+         <option :value="genero.idGenero" v-for="genero in  this.$store.state.generos">{{genero.genero}}</option>
       </select>
     </div>
     <div class="form-group col-md-3">
@@ -78,29 +78,25 @@
       <input type="password" class="form-control" id="confirmacion" placeholder="confirmacion" v-model="confirmacion" required>
     </div>
   </div>
-  <div class="form-group">
-    <label for="direccion">Direccion:</label>
-    <input type="text" class="form-control" id="direccion" placeholder="Col Las Mercedes casa #4453" v-model="direccion" required>
-  </div>
+  
   <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-9">
+      <label for="direccion">Direccion:</label>
+      <input type="text" class="form-control" id="direccion" placeholder="Col Las Mercedes casa #4453" v-model="direccion" required>
+    </div>
+    <div class="form-group col-md-3">
       <label for="pais">Pais:</label>
-      <select id="pais" class="form-control" required>
+      <select id="pais" class="form-control" required v-model="pais">
         <option value="">Choose...</option>
-        <option value="eje">...</option>
+        <option :value="ciudad.idPais" v-for="ciudad  in  this.$store.state.ciudades">{{ciudad.nombreCiudad}}</option>
+
       </select>
     </div>
-    <div class="form-group col-md-4">
-      <label for="ciudad">Ciudad:</label>
-      <select id="ciudad" class="form-control" required="">
-        <option value="">Choose...</option>
-        <option value="eje">...</option>
-      </select>
-    </div>
+    
 
   </div>
  
-  <button type="submit" class="btn btn-primary" @click="guardarCliente">Sign in</button>
+  <button type="submit" class="btn btn-primary" @click="guardarCliente">Crear Usuario</button>
 </form>
 </template>
 
@@ -115,16 +111,16 @@ export default {
     sApellido: "",
     identidad: "",
     telefono: "",
-    Genero: 0,
+    genero: "",
     correo: "",
     contrasena: "",
     confirmacion: "",
     direccion: "",
-    pais: 0,
+    pais: "",
     ciudad:"",
     ciudades:[],
     paises:[],
-    generos:[]
+    generos:[],
   }),
   watch: {
     menu (val) {

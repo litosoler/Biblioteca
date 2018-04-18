@@ -14,7 +14,7 @@
 				<div class="input-group mb-3">
 					<input type="text" class="form-control" placeholder="Encuentra tu libro" aria-label="Recipient's username" aria-describedby="basic-addon2" autofocus>
 					<div class="input-group-append green">
-						<button class="btn btn-default white" type="button">Buscar</button>
+						<button class="btn btn-default white" type="button"><router-link to="/resultados" >Buscar</router-link></button>
 					</div>
 				</div>	
 			</div>
