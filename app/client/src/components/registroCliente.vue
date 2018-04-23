@@ -105,19 +105,18 @@ export default {
   data: () => ({
     date: '1998-12-12',
     menu: false,
-    pNombre: "Marcos",
-    sNombre: "A",
-    pApellido: "",
-    sApellido: "",
-    identidad: "",
-    telefono: "",
-    genero: "",
-    correo: "",
-    contrasena: "",
-    confirmacion: "",
-    direccion: "",
-    pais: "",
-    ciudad:"",
+    pNombre: "Mario",
+    sNombre: "Antonio",
+    pApellido: "Soliz",
+    sApellido: "Solia",
+    identidad: "0701-1998-25897",
+    telefono: "89338805",
+    genero: "1",
+    correo: "mari200@gmail.com",
+    contrasena: "asd.456",
+    confirmacion: "asd.456",
+    direccion: "Col America Oeste",
+    ciudad:"62",
     ciudades:[],
     paises:[],
     generos:[]
@@ -143,17 +142,19 @@ export default {
         params.append('sNombre', this.sNombre);
         params.append('pApellido', this.pApellido);
         params.append('sApellido', this.sApellido);
-        params.append('sApellido', this.sApellido);
         params.append('identidad', this.identidad);
         params.append('telefono', this.telefono);
         params.append('idGenero', this.genero);
         params.append('fechaNacimiento', this.date);
         params.append('correo', this.correo);
         params.append('contrasena', this.contrasena);
-        params.append('confirmacion', this.confirmacion);
         params.append('direccion', this.direccion);
         params.append('idCiudad', this.ciudad);
+
+
         let respuesta = await Axios.post('/api/setters.php?opcion=1', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+
+        console.log(respuesta);
       }
     }
   }
