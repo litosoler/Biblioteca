@@ -1,7 +1,5 @@
 export default {
-    initPaises(state, paises) {
-        state.paises = paises;
-    },
+
     initCiudades(state, ciudades) {
         state.ciudades = ciudades;
     },
@@ -10,5 +8,11 @@ export default {
     },
     guardarSeleccion(state, idLibroSelec){
     	state.libroSelec = state.libros.find(libro => libro.idLibro == idLibroSelec );
+    },
+    setCliente(state, cliente){
+        state.cliente = cliente;
+    },
+    setEmpleado(state, empleado){
+        state.empleado = empleado;
     }
 };

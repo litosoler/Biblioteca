@@ -21,6 +21,9 @@
 		public function ejecutar($sql){
 			return sqlsrv_query( $this->conn, $sql);
 		}
+		public function ejecutarParams($sql, $params){
+			return sqlsrv_query( $this->conn, $sql, $params);
+		}
 		public function obtenerFila($stmt){
 			return mysqli_fetch_array($stmt);
 		}

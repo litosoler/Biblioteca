@@ -7,15 +7,15 @@
 			<v-list >
 				<v-list-tile id="inicioSesion">
 					<v-list-tile-title class="title">
-						<router-link to="/" class="link-blue">Cerrar Sesion</router-link>
+						<p @click="cerrarSesion" class="link-blue">Cerrar Sesion</p>
 					</v-list-tile-title>
 				</v-list-tile>
 			</v-list>
 		</v-toolbar>
 	</br>
 	<v-list dense class="pt-0">
-		<router-link :to="item.link"  v-for="item in items" class="link-blue">
-			<v-list-tile :key="item.title" @click="">
+		<router-link :to="item.link"  :key="item.title" v-for="item in items" class="link-blue">
+			<v-list-tile >
 				<v-list-tile-action>
 					<v-icon>{{ item.icon }}</v-icon>
 				</v-list-tile-action>
@@ -55,6 +55,13 @@ export default{
 			],
 			right: null
 		}
+	},
+	methods:{
+		cerrarSesion(){
+			Axios.get('/api/getters.php?opcion=6');
+			this.$store.commit("setEmpleado", undefined)
+			this.$router.push("/")
+		}
 	}
 }
 </script>
@@ -74,6 +81,7 @@ export default{
 }
 .link{
 	color:white;
+	cursor: pointer;
 }
 .link:hover{
 	color:white;
@@ -81,6 +89,7 @@ export default{
 }
 .link-blue{
 	color:#3F51B5;
+	cursor: pointer;
 }
 .link-blue:hover{
 	color:#3F51B5;

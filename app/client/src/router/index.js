@@ -28,8 +28,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'index',
+      path: "",
       component: index,
       children:[
         {

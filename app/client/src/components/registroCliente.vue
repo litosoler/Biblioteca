@@ -85,10 +85,10 @@
       <input type="text" class="form-control" id="direccion" placeholder="Col Las Mercedes casa #4453" v-model="direccion" required>
     </div>
     <div class="form-group col-md-3">
-      <label for="pais">Pais:</label>
-      <select id="pais" class="form-control" required v-model="pais">
+      <label for="ciudad">Ciudad:</label>
+      <select id="ciudad" class="form-control" required v-model="ciudad">
         <option value="">Choose...</option>
-        <option :value="ciudad.idPais" v-for="ciudad  in  this.$store.state.ciudades">{{ciudad.nombreCiudad}}</option>
+        <option :value="ciudad.idCiudad" v-for="ciudad  in  this.$store.state.ciudades">{{ciudad.nombreCiudad}}</option>
 
       </select>
     </div>
@@ -96,17 +96,17 @@
 
   </div>
  
-  <button type="submit" class="btn btn-primary" @click="guardarCliente">Crear Usuario</button>
+  <button  class="btn btn-primary" @click="guardarCliente">Crear Usuario</button>
 </form>
 </template>
 
 <script>
 export default {
   data: () => ({
-    date: null,
+    date: '1998-12-12',
     menu: false,
-    pNombre: "",
-    sNombre: "",
+    pNombre: "Marcos",
+    sNombre: "A",
     pApellido: "",
     sApellido: "",
     identidad: "",
@@ -120,7 +120,7 @@ export default {
     ciudad:"",
     ciudades:[],
     paises:[],
-    generos:[],
+    generos:[]
   }),
   watch: {
     menu (val) {
@@ -131,8 +131,30 @@ export default {
     save (date) {
       this.$refs.menu.save(date)
     },
-    guardarCliente(){
-    	let parametros = `pNombre=${this.pNombre}&sNombre=${this.sNombre}&pApellido=${this.Apellido}&sApellido=${this.sApellido}&identidad=${this.identidad}&telefono=${this.telefono}&genero=${this.genero}&fechaNacimiento=${this.date}&correoElec=${this.correo}&contrasena=${this.contrasena}&confirmacion=${this.confirmacion}&direccion=${this.direccion}&pais=${this.pais}&ciudad=${this.ciudad}  `;
+    async guardarCliente(){
+    	`=${this.identidad}&telefono=${this.telefono}&genero=${this.genero}&fechaNacimiento=${this.date}&correoElec=${this.correo}&contrasena=${this.contrasena}&confirmacion=${this.confirmacion}&direccion=${this.direccion}&ciudad=${this.ciudad}  `;
+      if (this.contrasena != this.confirmacion || !this.contrasena || !this.confirmacion){
+        this.contrasena = "";
+        this.confirmacion = "";
+        alert("Las contraseñas no coinciden")
+      }else if(this.genero && this.direccion && this.pNombre && this.pApellido && this.date && this.identidad && this.correo){
+        var params = new URLSearchParams();
+        params.append('pNombre', this.pNombre);
+        params.append('sNombre', this.sNombre);
+        params.append('pApellido', this.pApellido);
+        params.append('sApellido', this.sApellido);
+        params.append('sApellido', this.sApellido);
+        params.append('identidad', this.identidad);
+        params.append('telefono', this.telefono);
+        params.append('idGenero', this.genero);
+        params.append('fechaNacimiento', this.date);
+        params.append('correo', this.correo);
+        params.append('contrasena', this.contrasena);
+        params.append('confirmacion', this.confirmacion);
+        params.append('direccion', this.direccion);
+        params.append('idCiudad', this.ciudad);
+        let respuesta = await Axios.post('/api/setters.php?opcion=1', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+      }
     }
   }
 }

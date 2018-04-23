@@ -14,8 +14,8 @@
 		</v-toolbar>
 		</br>
 		<v-list dense class="pt-0">
-			<router-link :to="item.link"  v-for="item in items" class="link-blue">
-				<v-list-tile :key="item.title" @click="">
+			<router-link :to="item.link" :key="item.title"  v-for="item in items" class="link-blue">
+				<v-list-tile >
 					<v-list-tile-action>
 						<v-icon>{{ item.icon }}</v-icon>
 					</v-list-tile-action>
