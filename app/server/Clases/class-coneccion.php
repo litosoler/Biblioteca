@@ -1,7 +1,7 @@
 <?php
 	class Conexion{
 		private $serverName = "den1.mssql5.gear.host"; //serverName\instanceName
-		private $connectionInfo = array( "Database"=>"libreria", "UID"=>"libreria", "PWD"=>"asd.456");
+		private $connectionInfo = array( "Database"=>"libreria", "UID"=>"libreria", "PWD"=>"asd.456", "CharacterSet" => "UTF-8");
 		private $conn;
 
 		public function __construct(){

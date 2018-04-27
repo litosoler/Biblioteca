@@ -77,14 +77,13 @@
                     console.log(respuesta)
 
          if(respuesta.tipoUsuario == 1){
-            this.$store.dispatch('guardarUsuario', respuesta.tipoUsuario, respuesta.codigoUsuario);
+            this.$store.dispatch('guardarUsuario', {tipoUsuario : respuesta.tipoUsuario, codigoUsuario: respuesta.codigoUsuario});
             this.$router.push("/empleados")
           }else if(respuesta.tipoUsuario == 2){
-            this.$store.dispatch('guardarUsuario', respuesta.tipoUsuario, respuesta.codigoUsuario);
+            this.$store.dispatch('guardarUsuario', {tipoUsuario : respuesta.tipoUsuario, codigoUsuario: respuesta.codigoUsuario});
             this.$router.push("/clientes")
 
           }
-        
       },
     }
   }

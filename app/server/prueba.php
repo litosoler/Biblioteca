@@ -12,7 +12,14 @@ if( $conn ) {
 		die( print_r( sqlsrv_errors(), true));
 	}else{
 		echo "query exitosa\n";
-		$resp = sqlsrv_fetch_array($stmt);
+
+		$resp= [];
+
+		while ($row = sqlsrv_fetch_array($stmt)) {
+			$resp[] = $row;
+		}
+		
+		
 		echo json_encode($resp);
 	}
 }else{

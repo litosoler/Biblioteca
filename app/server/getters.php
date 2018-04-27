@@ -51,7 +51,11 @@ switch ($_GET['opcion']) {
 	//obtiene un cliente
 	case '2':
 		$bd = new Conexion();
-		$sql = "select pNombre, sNombre,  correoElectronico  from Personas p inner join Clientes c on c.idPersona = p.idPersona where c.idPersona = ".$_POST["idPersona"].";";
+		$sql = "select pNombre, sNombre, pApellido, sApellido, identidad, idGenero, fechaNacimiento, correoElectronico, t.numeroTelefonico, d.descripcion, idCiudad  from Personas p 
+			inner join Clientes c on c.idPersona = p.idPersona 
+			inner join Direcciones d on d.idDireccion = p.idDireccion
+			left join Telefonos t on p.idPersona = t.idPersona
+			where c.idPersona = ".$_POST["idPersona"].";";
 
 		$stmt = $bd->ejecutar($sql);
 
@@ -97,7 +101,11 @@ switch ($_GET['opcion']) {
 	//obtiene un empleado
 	case '5':
 		$bd = new Conexion();
-		$sql = "select pNombre, sNombre,  correoElectronico  from Personas p inner join Empleados e on e.idPersona = p.idPersona where e.idPersona = ".$_POST["idPersona"].";";
+		$sql = "select pNombre, sNombre, pApellido, sApellido, identidad, idGenero, fechaNacimiento, correoElectronico, t.numeroTelefonico, d.descripcion, idCiudad  from Personas p 
+			inner join empleados e on e.idPersona = p.idPersona 
+			inner join Direcciones d on d.idDireccion = p.idDireccion
+			left join Telefonos t on p.idPersona = t.idPersona
+			where c.idPersona = ".$_POST["idPersona"].";";
 
 		$stmt = $bd->ejecutar($sql);
 
@@ -113,14 +121,11 @@ switch ($_GET['opcion']) {
 	break;
 	case '7':
 		$bd = new Conexion();
-
 		$sql = 'select idCiudad, nombreCiudad from Ciudades where idPais = 12 ;';
 		$stmt = $bd->ejecutar($sql);
 		$paises= array();	
 		while ($row = sqlsrv_fetch_object($stmt)) {
-			if (sizeof($paises) < 3) {
 				$paises[] = $row;
-			}
 		}
 
 		echo json_encode($paises);
@@ -128,6 +133,23 @@ switch ($_GET['opcion']) {
 		sqlsrv_free_stmt( $stmt); 
 		$bd->cerrarConexion();
 	break;
+	//obtener la lista formas de pago
+	case '8':
+		$bd = new Conexion();
+		$sql = 'select idFormaPago, descripcion from formasPago where estado = 1';
+
+		$stmt = $bd->ejecutar($sql);
+
+		$formasPago= array();
+
+		while ($row = sqlsrv_fetch_object($stmt)) {
+				$formasPago[] = $row;
+		}
+
+		echo json_encode($formasPago);
+
+
+		$bd->cerrarConexion();
 	default:		
 	break;
 }

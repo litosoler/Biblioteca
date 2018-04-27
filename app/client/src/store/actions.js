@@ -11,14 +11,15 @@ export default {
     	let respuesta = undefined;
     	if (tipoUsuario == 1) {
   			var params = new URLSearchParams();
-        params.append('idPersona', idUsuario);
-        respuesta = await Axios.post('/api/getters.php?opcion=5', params).then( resp =>  resp.data).catch(err => {console.log(err)});
-        commit('setEmpleado', respuesta)
+            params.append('idPersona', idUsuario);
+            respuesta = await Axios.post('/api/getters.php?opcion=5', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+            commit('setEmpleado', respuesta)
     	}else if(tipoUsuario == 2){
   			var params = new URLSearchParams();
-        params.append('idPersona', idUsuario);
-        respuesta = await Axios.post('/api/getters.php?opcion=2', params).then( resp =>  resp.data).catch(err => {console.log(err)});
-    		commit('setCliente', respuesta);
+            params.append('idPersona', idUsuario);
+            respuesta = await Axios.post('/api/getters.php?opcion=2', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+    		console.log(respuesta)
+            commit('setCliente', respuesta);
     	}
     }
     

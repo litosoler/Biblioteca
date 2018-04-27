@@ -96,6 +96,9 @@
 
 <script>
 export default {
+  mounted(){
+    this.initValues();
+  },
   data: () => ({
     date: null,
     menu: false,
@@ -126,15 +129,44 @@ export default {
     save (date) {
       this.$refs.menu.save(date)
     },
-    guardarCliente(){
-    	let parametros = `pNombre=${this.pNombre}&sNombre=${this.sNombre}&pApellido=${this.Apellido}&sApellido=${this.sApellido}&identidad=${this.identidad}&telefono=${this.telefono}&genero=${this.genero}&fechaNacimiento=${this.date}&correoElec=${this.correo}&contrasena=${this.contrasena}&confirmacion=${this.confirmacion}&direccion=${this.direccion}&pais=${this.pais}&ciudad=${this.ciudad}  `;
+     async guardarCliente(){
+       if(this.genero && this.direccion && this.pNombre && this.pApellido && this.date && this.identidad && this.correo){
+        var params = new URLSearchParams();
+        params.append('pNombre', this.pNombre);
+        params.append('sNombre', this.sNombre);
+        params.append('pApellido', this.pApellido);
+        params.append('sApellido', this.sApellido);
+        params.append('identidad', this.identidad);
+        params.append('telefono', this.telefono);
+        params.append('idGenero', this.genero);
+        params.append('fechaNacimiento', this.date);
+        params.append('correo', this.correo);
+        params.append('direccion', this.direccion);
+        params.append('idCiudad', this.ciudad);
 
-      if (this.pNombre && this.pApellido && this.identidad && this.genero && this.correo && this.direccion && this.ciudad) {
-        this.editarCampos(); 
+
+        let respuesta = await Axios.post('/api/setters.php?opcion=1', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+
+        console.log(respuesta);
+        this.editarCampos();
+
       }
     },
     editarCampos(){
       this.disabled = ! this.disabled;
+    },
+    initValues(){
+      this.pNombre = this.$store.state.cliente.pNombre;
+      this.sNombre = this.$store.state.cliente.sNombre
+      this.pApellido = this.$store.state.cliente.pApellido
+      this.sApellido = this.$store.state.cliente.sApellido
+      this.identidad = this.$store.state.cliente.identidad
+      this.telefono = this.$store.state.cliente.numeroTelefonico
+      this.genero = this.$store.state.cliente.idGenero
+      this.correo = this.$store.state.cliente.correoElectronico
+      this.direccion = this.$store.state.cliente.descripcion
+      this.ciudad = this.$store.state.cliente.idCiudad
+      this.date = this.$store.state.cliente.fechaNacimiento.date.split(" ")[0]
     }
   }
 }

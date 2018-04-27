@@ -14,6 +14,7 @@
 					<label >Forma Pago:</label>
 					<select class="form-control">
 						<option value="">....</option>
+						<option v-for="item in formasPago" value="item.idFormaPago">{{item.descripcion}}</option>
 					</select>
 				</div>
 			</div>
@@ -92,34 +93,39 @@ export default{
 		let mes = fecha.getMonth() + 1;
 		let ano = fecha.getFullYear();
 		if (dia < 10){ dia = "0"+dia}
-			if (mes < 10){ mes = "0"+mes}
-				console.log(dia)
-			this.fecha = `${ano}-${mes}-${dia}`;
+		if (mes < 10){ mes = "0"+mes}
+		this.fecha = `${ano}-${mes}-${dia}`;
+		this.obtenerFormasPago();
 
-		},
-		data(){
-			return{
-				factura:{
-					detalles:[
-					{idLibro:"", cantidad:""},
-					]	
-				},
-				total: 150,
-				fecha: undefined
-			}
-		},
-		methods:{
-			nuevoDetalle(){
-				let detalle = {idLibro:"", cantidad:""};
-				this.factura.detalles.push(detalle);
-			}
+	},
+	data(){
+		return{
+			factura:{
+				detalles:[
+				{idLibro:"", cantidad:""},
+				]	
+			},
+			total: 150,
+			fecha: undefined,
+			formasPago: []
 		}
-		
+	},
+	methods:{
+		nuevoDetalle(){
+			let detalle = {idLibro:"", cantidad:""};
+			this.factura.detalles.push(detalle);
+		},
+		async obtenerFormasPago(){
+			this.formasPago =  await Axios.get('/api/getters.php?opcion=8').then( resp =>  resp.data).catch(err => {console.log(err)});
+	
+		},
+	}
+	
 		
 	}
-	</script>
+</script>
 
-	<style >
+<style >
 	.historial{
 		margin-top: 15px;
 		margin-bottom: 20px;
@@ -133,5 +139,4 @@ export default{
 	.historial td{
 		padding-top: 6px !important;
 	}
-
-	</style>
+</style>

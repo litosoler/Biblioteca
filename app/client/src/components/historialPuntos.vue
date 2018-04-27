@@ -2,8 +2,8 @@
 	<v-container grid-list-md text-xs-center>
    <v-layout row wrap>
      <v-flex xs12>
-       <h1>Puntos</h1>
-       <table class="table historial">
+       <h1>... Muy Pronto!!!</h1>
+       <!-- <table class="table historial">
         <tbody>
          <tr>
           <th scope="row">Fecha Movimiento</th>
@@ -20,7 +20,7 @@
           <td>{{total}}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
   </v-flex>
 </v-layout> 
 </v-container>
