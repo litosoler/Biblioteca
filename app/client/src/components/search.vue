@@ -12,7 +12,7 @@
 		<section class="row search-row">
 			<div class="offset-3 col-6">
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" placeholder="Encuentra tu libro" aria-label="Recipient's username" aria-describedby="basic-addon2" autofocus>
+					<input type="text" class="form-control" placeholder="Encuentra tu libro" aria-label="Recipient's username" aria-describedby="basic-addon2" autofocus @keyup="buscar">
 					<div class="input-group-append green">
 						<button class="btn btn-default white" type="button"><router-link to="/resultados" >Buscar</router-link></button>
 					</div>
@@ -24,6 +24,23 @@
 
 	</div>
 </template>
+
+<script>
+	export default{
+		mounted(){
+			this.$store.state.busquedaString = ""
+		},
+		methods:{
+			buscar(event){
+				if(event.target.value.length > 2){
+					this.$store.state.busquedaString = event.target.value
+					this.$store.dispatch("realizarBusqueda",{cadena : this.$store.state.busquedaString})
+					this.$router.push("/resultados")
+				}
+			}
+		}
+	}
+</script>
 
 <style >
 .principal{

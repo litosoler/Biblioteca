@@ -14,5 +14,8 @@ export default {
     },
     setEmpleado(state, empleado){
         state.empleado = empleado;
-    }
+    },
+    setResultadosBusqueda(state, libros){
+        state.libros = libros;
+    },
 };

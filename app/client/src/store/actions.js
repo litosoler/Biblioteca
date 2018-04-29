@@ -21,6 +21,12 @@ export default {
     		console.log(respuesta)
             commit('setCliente', respuesta);
     	}
+    },
+    realizarBusqueda: async function({commit}, info){
+        var params = new URLSearchParams();
+        params.append('cadena', info.cadena);
+        let respuesta = await Axios.post('/api/getters.php?opcion=13', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+        commit('setResultadosBusqueda', respuesta)
     }
     
 }

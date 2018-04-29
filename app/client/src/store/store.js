@@ -19,7 +19,8 @@ export const store = new Vuex.Store({
 		ciudades:[],
 		generos:[],
 		cliente: undefined,
-		empleado: undefined
+		empleado: undefined,
+		busquedaString : ""
 
 	},
 	getters,

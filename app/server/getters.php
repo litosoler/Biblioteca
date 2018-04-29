@@ -101,11 +101,11 @@ switch ($_GET['opcion']) {
 	//obtiene un empleado
 	case '5':
 		$bd = new Conexion();
-		$sql = "select pNombre, sNombre, pApellido, sApellido, identidad, idGenero, fechaNacimiento, correoElectronico, t.numeroTelefonico, d.descripcion, idCiudad  from Personas p 
+		$sql = "select e.idPersona, pNombre, sNombre, pApellido, sApellido, identidad, idGenero, fechaNacimiento, correoElectronico, t.numeroTelefonico, d.descripcion, idCiudad  from Personas p 
 			inner join empleados e on e.idPersona = p.idPersona 
 			inner join Direcciones d on d.idDireccion = p.idDireccion
 			left join Telefonos t on p.idPersona = t.idPersona
-			where c.idPersona = ".$_POST["idPersona"].";";
+			where e.idPersona = ".$_POST["idPersona"].";";
 
 		$stmt = $bd->ejecutar($sql);
 
@@ -150,6 +150,114 @@ switch ($_GET['opcion']) {
 
 
 		$bd->cerrarConexion();
+	break;
+	//obtener clientes
+	case '9':
+		$bd = new Conexion();
+		$sql = "Select p.identidad, c.idPersona from Clientes c inner join Personas p on p.idPersona = c.idPersona";
+		$stmt = $bd->ejecutar($sql);		
+		$listaClientes = array();
+		while ($row = sqlsrv_fetch_object($stmt)) {
+				$listaClientes[] = $row;
+		}
+		echo json_encode($listaClientes);
+
+		$bd->cerrarConexion();
+	break;
+	//obtener libros
+	case '10':
+		$bd = new Conexion();
+		$sql = 'select lib.nombreLibro,est.id ,est.idEstante,lib.precioVenta from LibrosXEstantes est
+			inner join Libros lib on est.idLibro=lib.idLibro
+			where idEstadoLibro=3';
+		$stmt = $bd->ejecutar($sql);
+		$libros= array();
+		while ($row = sqlsrv_fetch_object($stmt)) {
+				$libros[] = $row;
+		}
+		echo json_encode($libros);
+		$bd->cerrarConexion();
+	break;
+	//libros comprados
+	case '12':
+		$bd = new Conexion();
+		$sql = "Select l.nombreLibro, p.idPersona, f.fecha from Facturas f
+				inner join Clientes c on c.idPersona = f.idCliente
+				inner join Personas p on p.idPersona = c.idPersona
+				inner join DetallesFacturas df on df.idFactura = f.idFactura
+				inner join LibrosxEstantes le on le.id = df.idLibro
+				inner join Libros l on l.idlibro = le.id
+				where p.idPersona = ".$_POST["idPersona"].";";
+
+		$stmt = $bd->ejecutar($sql);
+		$libroscomprados=array();
+
+		while ($row = sqlsrv_fetch_object($stmt)) {
+			  
+				$libroscomprados[] = $row;
+		}
+
+		echo  json_encode($libroscomprados);
+		
+
+		$bd->cerrarConexion();
+	break;
+	//buscar libro por nombre
+	case '13':
+		$bd = new Conexion();
+
+		// $sql_exec_sp = '{call SP_insertarCliente( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ';
+
+		// $tipo			 = 1;
+		// $cadena			 = "lad";//$_POST["cadena"];
+		// $mensaje = "..........................................................";
+		// $ocurrioError	 = 0;
+
+		// $params = array(
+		// 		array($tipo, SQLSRV_PARAM_IN),
+		// 		array($cadena, SQLSRV_PARAM_IN),
+		// 		array(&$mensaje, SQLSRV_PARAM_INOUT),
+		// 		array(&$ocurrioError, SQLSRV_PARAM_INOUT)
+		// );
+
+		$sql = "Select * from libros l where l.nombreLibro like '%".$_POST["cadena"]."%'";
+
+		$tabla = array();
+		$stmt =  $bd->ejecutar( $sql);
+
+		$row = sqlsrv_fetch_object($stmt);
+
+		if( empty($row) ){
+
+			$sql = "Select * from libros l ";
+
+			$stmt =  $bd->ejecutar( $sql);
+
+			while ($row = sqlsrv_fetch_object($stmt)) {
+					$tabla[] = $row;
+			}
+
+		}else{
+			$tabla[] = $row;
+			while ($row = sqlsrv_fetch_object($stmt)) {
+					$tabla[] = $row;
+			}
+
+		}
+		
+		// $respuestaCliente= array();
+		// $mensaje = explode(".", $mensaje);
+		// $respuestaCliente["mensaje"] = $mensaje[0];
+		// $respuestaCliente["ocurrioError"]= $ocurrioError;
+		// $respuestaCliente["tabla"]= $tabla;
+
+
+		echo json_encode($tabla);
+		$bd->cerrarConexion();
+
+	break;
+	
+
 	default:		
 	break;
 }

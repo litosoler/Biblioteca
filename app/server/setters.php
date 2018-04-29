@@ -51,7 +51,8 @@ switch ($_GET['opcion']) {
 
 		echo json_encode($respuestaCliente);
 
-		
+		sqlsrv_free_stmt( $stmt); 
+		$bd->cerrarConexion();
 	break;
 	// actualizar un Cliente
 	case '2':
@@ -100,11 +101,44 @@ switch ($_GET['opcion']) {
 
 		echo json_encode($respuestaCliente);
 
-		
+		sqlsrv_free_stmt( $stmt); 
+		$bd->cerrarConexion();
 	break;
-	//seleccionar generosPersonas
+	//insertar una factura
 	case '3':
+		$bd = new Conexion();
+
+		$sql_exec_sp = '{call SP_actualizarCliente( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ';
+		$detalles		= $_POST["detalles"];
+		$detalles = explode(',',$detalles);
+		$idEmpleado 	= $_POST["idEmpleado"];
+		$idCliente = $_POST["idCliente"];
+		$idFormaPago		 = $_POST["idFormaPago"];
+		$comentario		 = $_POST["comentario"];
+		$idImpuesto		 = $_POST["idImpuesto"];
+		$idFactura = "";
+		$ocurrioError	 = 0;
+
+		$params = array(
+				array($detalles, SQLSRV_PARAM_IN),
+				array($idEmpleado, SQLSRV_PARAM_IN),
+				array($idCliente, SQLSRV_PARAM_IN),
+				array($idFormaPago, SQLSRV_PARAM_IN),
+				array($comentario, SQLSRV_PARAM_IN),				
+				array($idImpuesto, SQLSRV_PARAM_IN),
+				array(&$idFactura, SQLSRV_PARAM_IN),
+		);
+
+		$stmt =  $bd->ejecutarParams($sql_exec_sp, $params);
 		
+		$respuestaCliente= array();
+		$respuestaCliente["mensaje"] = "";
+		$respuestaCliente["ocurrioError"]= "";
+
+
+		echo json_encode($respuestaCliente);
+
+		$bd->cerrarConexion();
 	break;	
 	//verifica si hay sesion iniciada
 	case '4':

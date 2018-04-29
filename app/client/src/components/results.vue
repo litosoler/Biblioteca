@@ -2,17 +2,9 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-6">
 					<label class=" control-label">Buscar:</label>
-					<input type="text" class="form-control input" v-model="porBuscar">
-				</div>
-				<div class="col-sm-3">
-					<label class=" control-label">Ordenar:</label>
-					<input type="text" class="form-control input ">
-				</div>
-				<div class="col-sm-3">
-					<label class=" control-label">Filtro:</label>
-					<input type="text" class="form-control input ">
+					<input type="text" class="form-control input" v-model="porBuscar" @keyup="buscar">
 				</div>
 				<div>
 					<button id="buscar" class="col-sm-2 btn yellow" @click="buscar">Buscar</button>
@@ -21,9 +13,9 @@
 		</div>
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-6" v-for="libro in libros">
+				<div class="col-sm-6" v-for="libro in $store.state.libros">
 					<div class="resultado-frame " >
-						<label class="titulo">{{libro.nombre}}</label>
+						<label class="titulo">{{libro.nombreLibro}}</label>
 						<div class="informacion">
 							<div class="row">
 								<div class="col-md-6">
@@ -33,10 +25,10 @@
 									<li>Autores: {{libro.autores}}</li>
 								</div>
 								<div class="col-md-6">
-									<li>Precio: {{libro.precio}}</li>
+									<li>Precio: {{libro.precioVenta}}</li>
 								</div>
 								<div class="col-md-6">
-									<li>N° Páginas: {{libro.noPaginas}}</li>										
+									<li>N° Páginas: {{libro.paginas}}</li>										
 								</div>
 							</div>
 						</div>
@@ -58,9 +50,9 @@
 					<div class="container">
 						<div class="row">
 							<div>
-								<h1> {{selec.nombre}} </h1>
+								<h1> {{selec.nombreLibro}} </h1>
 								<div>
-									<h3> {{selec.descrip}} </h3>
+									<h3> {{selec.sinopsis}} </h3>
 								</div>
 							</div>				
 						</div>
@@ -69,13 +61,13 @@
 								<ul>
 									<li><label>Autor:</label>{{selec.autor}}</li>
 									<li><label>Biblioteca:</label>{{selec.biblioteca}}</li>
-									<li><label>Precio:</label>{{selec.precio}}</li>
+									<li><label>Precio:</label>{{selec.precioVenta}}</li>
 								</ul>
 							</div>
 							<div class="col-md-6">
 								<ul>
 									<li><label>Edicion:</label>{{selec.edicion}}</li>
-									<li><label>ISBN:</label>{{selec.isbn}}</li>
+									<li><label>ISBN:</label>{{selec.ISBN}}</li>
 									<li><label>Editorial:</label>{{selec.editorial}}</li>
 								</ul>
 							</div>
@@ -90,6 +82,9 @@
 
 <script>
 export default {
+	mounted(){
+		this.initCadena();
+	},
 	 data () {
       return {
       	//se usan con el modal
@@ -104,13 +99,10 @@ export default {
         ordenar: 1,
         //1:autores, 2:bibliotecas, 3,libros
         filtro: 3,
-
       }
     },
 	computed: {
-		libros(){
-			return 	this.$store.getters.libros;
-		}
+
 	},
 	methods:{
 		verDetalles(idLibro){
@@ -118,8 +110,13 @@ export default {
 			this.selec = this.$store.getters.seleccionado;
 			this.dialog = true;
 		},
+		initCadena(){
+			this.porBuscar = this.$store.state.busquedaString
+			this.$store.state.busquedaString = ""
+		},
 		buscar(){
-			alert("buscar:" + this.porBuscar);
+			this.$store.state.busquedaString = this.porBuscar
+			this.$store.dispatch("realizarBusqueda",{cadena : this.$store.state.busquedaString})
 		}
 	}
 }
