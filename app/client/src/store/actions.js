@@ -18,7 +18,6 @@ export default {
   			var params = new URLSearchParams();
             params.append('idPersona', idUsuario);
             respuesta = await Axios.post('/api/getters.php?opcion=2', params).then( resp =>  resp.data).catch(err => {console.log(err)});
-    		console.log(respuesta)
             commit('setCliente', respuesta);
     	}
     },

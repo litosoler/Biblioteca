@@ -26,11 +26,15 @@
 export default {
 	data(){
 		return{
-      historial: [
-      {fechaI: "2018-12-12", fechaF: "2018-12-15",  libro:'libro1'},
-      {fechaI: "2018-12-12", fechaF: "2018-12-15",  libro:'libro2'},
-      {fechaI: "2018-12-12", fechaF: "2018-12-15",  libro:'libro3'},
-      ]
+      historial: []
+    }
+  },
+  methods:{
+    async obtenerCompras(){
+      var params = new URLSearchParams();
+      params.append('idPersona', this.$store.state.cliente.idPersona);
+      let respuesta = await Axios.post('/api/getters.php?opcion=12', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+      this.historial = respuesta
     }
   }
 }

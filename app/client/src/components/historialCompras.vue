@@ -11,9 +11,9 @@
           <th scope="row">Precio</th>
         </tr>
         <tr v-for="libro in historial">
-          <td>{{libro.fecha}}</td>
-          <td>{{libro.libro}}</td>
-          <td>{{libro.precio}}</td>
+          <td>{{libro.fecha.date.split(" ")[0]}}</td>
+          <td>{{libro.nombreLibro}}</td>
+          <td>{{libro.precioVenta}}</td>
         </tr>
       </tbody>
     </table>
@@ -24,13 +24,20 @@
 
 <script>
 export default {
+  mounted(){
+    this.obtenerCompras();
+  },
 	data(){
 		return{
-      historial: [
-      {fecha: "2018-12-12", libro:'libro1', precio:'gratis'},
-      {fecha: "2018-12-12", libro:'libro2', precio:'gratis'},
-      {fecha: "2018-12-12", libro:'libro3', precio:'gratis'},
-      ]
+      historial: []
+    }
+  },
+  methods:{
+    async obtenerCompras(){
+      var params = new URLSearchParams();
+      params.append('idPersona', this.$store.state.cliente.idPersona);
+      let respuesta = await Axios.post('/api/getters.php?opcion=12', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+      this.historial = respuesta
     }
   }
 }

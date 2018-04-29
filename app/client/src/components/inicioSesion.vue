@@ -58,7 +58,6 @@
           params.append('correo', this.user);
           params.append('password', this.pwd);
           let respuesta = await Axios.post('/api/getters.php?opcion=1', params).then( resp =>  resp.data).catch(err => {console.log(err)});
-          console.log(respuesta)
           if(respuesta.tipoUsuario == 0){
             alert("Usuario/Contraseña Incorrecta");
           }else if(respuesta.tipoUsuario == 1){

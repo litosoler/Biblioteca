@@ -145,9 +145,14 @@ export default {
         params.append('idCiudad', this.ciudad);
 
 
-        let respuesta = await Axios.post('/api/setters.php?opcion=1', params).then( resp =>  resp.data).catch(err => {console.log(err)});
+        let respuesta = await Axios.post('/api/setters.php?opcion=2', params).then( resp =>  resp.data).catch(err => {console.log(err)});
 
-        console.log(respuesta);
+          
+        respuesta = await Axios.get('/api/getters.php?opcion=4').then( resp =>  resp.data).catch(err => {console.log(err)});
+
+        
+        this.$store.dispatch('guardarUsuario', {tipoUsuario : respuesta.tipoUsuario, codigoUsuario: respuesta.codigoUsuario});        
+
         this.editarCampos();
 
       }

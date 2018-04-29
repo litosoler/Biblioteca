@@ -156,6 +156,7 @@ export default {
 
           let respuesta = await Axios.post('/api/setters.php?opcion=1', params).then( resp =>  resp.data).catch(err => {console.log(err)});
 
+          console.log(respuesta)
           if (respuesta.ocurrioError == 1){
             console.log(respuesta.mensaje)
           }else{

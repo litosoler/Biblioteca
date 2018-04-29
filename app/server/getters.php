@@ -51,7 +51,7 @@ switch ($_GET['opcion']) {
 	//obtiene un cliente
 	case '2':
 		$bd = new Conexion();
-		$sql = "select pNombre, sNombre, pApellido, sApellido, identidad, idGenero, fechaNacimiento, correoElectronico, t.numeroTelefonico, d.descripcion, idCiudad  from Personas p 
+		$sql = "select p.idPersona, pNombre, sNombre, pApellido, sApellido, identidad, idGenero, fechaNacimiento, correoElectronico, t.numeroTelefonico, d.descripcion, idCiudad  from Personas p 
 			inner join Clientes c on c.idPersona = p.idPersona 
 			inner join Direcciones d on d.idDireccion = p.idDireccion
 			left join Telefonos t on p.idPersona = t.idPersona
@@ -181,7 +181,7 @@ switch ($_GET['opcion']) {
 	//libros comprados
 	case '12':
 		$bd = new Conexion();
-		$sql = "Select l.nombreLibro, p.idPersona, f.fecha from Facturas f
+		$sql = "Select l.nombreLibro, p.idPersona, f.fecha, l.precioVenta from Facturas f
 				inner join Clientes c on c.idPersona = f.idCliente
 				inner join Personas p on p.idPersona = c.idPersona
 				inner join DetallesFacturas df on df.idFactura = f.idFactura
@@ -193,8 +193,7 @@ switch ($_GET['opcion']) {
 		$libroscomprados=array();
 
 		while ($row = sqlsrv_fetch_object($stmt)) {
-			  
-				$libroscomprados[] = $row;
+			$libroscomprados[] = $row;
 		}
 
 		echo  json_encode($libroscomprados);
@@ -254,7 +253,6 @@ switch ($_GET['opcion']) {
 
 		echo json_encode($tabla);
 		$bd->cerrarConexion();
-
 	break;
 	
 

@@ -9,7 +9,7 @@ switch ($_GET['opcion']) {
 	case '1':
 		$bd = new Conexion();
 
-		$sql_exec_sp = '{call SP_insertarCliente( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ';
+		$sql_exec_sp = '{call SP_insertarCliente( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ';
 
 		$pNombre			 = $_POST["pNombre"];
 		$sNombre			 = $_POST["sNombre"];
@@ -17,6 +17,7 @@ switch ($_GET['opcion']) {
 		$sApellido		 = $_POST["sApellido"];
 		$identidad		 = $_POST["identidad"];
 		$correoElectronico = $_POST["correo"];
+		$telefono = $_POST["telefono"];
 		$password		 = $_POST["contrasena"];
 		$idGenero		 = $_POST["idGenero"];
 		$direccion			 = $_POST["direccion"];
@@ -32,6 +33,7 @@ switch ($_GET['opcion']) {
 				array($sApellido, SQLSRV_PARAM_IN),				
 				array($identidad, SQLSRV_PARAM_IN),
 				array($correoElectronico, SQLSRV_PARAM_IN),
+				array($telefono, SQLSRV_PARAM_IN),
 				array($password, SQLSRV_PARAM_IN),
 				array($idGenero, SQLSRV_PARAM_IN),
 				array($direccion, SQLSRV_PARAM_IN),
@@ -50,23 +52,22 @@ switch ($_GET['opcion']) {
 
 
 		echo json_encode($respuestaCliente);
-
-		sqlsrv_free_stmt( $stmt); 
+ 
 		$bd->cerrarConexion();
 	break;
 	// actualizar un Cliente
 	case '2':
 		$bd = new Conexion();
 
-		$sql_exec_sp = '{call SP_actualizarCliente( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ';
+		$sql_exec_sp = '{call SP_actualizarCliente( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ';
 		$idPersona 	= $_SESSION["cliente"];
 		$pNombre			 = $_POST["pNombre"];
 		$sNombre			 = $_POST["sNombre"];
 		$pApellido		 = $_POST["pApellido"];
 		$sApellido		 = $_POST["sApellido"];
 		$identidad		 = $_POST["identidad"];
+		$telefono		 = $_POST["telefono"];
 		$correoElectronico = $_POST["correo"];
-		$password		 = $_POST["contrasena"];
 		$idGenero		 = $_POST["idGenero"];
 		$direccion			 = $_POST["direccion"];
 		$idCiudad		 = $_POST["idCiudad"];
@@ -82,7 +83,7 @@ switch ($_GET['opcion']) {
 				array($sApellido, SQLSRV_PARAM_IN),				
 				array($identidad, SQLSRV_PARAM_IN),
 				array($correoElectronico, SQLSRV_PARAM_IN),
-				array($password, SQLSRV_PARAM_IN),
+				array($telefono, SQLSRV_PARAM_IN),
 				array($idGenero, SQLSRV_PARAM_IN),
 				array($direccion, SQLSRV_PARAM_IN),
 				array($idCiudad, SQLSRV_PARAM_IN),
@@ -101,7 +102,6 @@ switch ($_GET['opcion']) {
 
 		echo json_encode($respuestaCliente);
 
-		sqlsrv_free_stmt( $stmt); 
 		$bd->cerrarConexion();
 	break;
 	//insertar una factura
