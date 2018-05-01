@@ -108,33 +108,65 @@ switch ($_GET['opcion']) {
 	case '3':
 		$bd = new Conexion();
 
-		$sql_exec_sp = '{call SP_actualizarCliente( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)} ';
-		$detalles		= $_POST["detalles"];
-		$detalles = explode(',',$detalles);
+		$sql_exec_sp = "{call SP_crearFactura( ?, ?, ?, ?, ?, ?, ?, ?,?)} ";
 		$idEmpleado 	= $_POST["idEmpleado"];
 		$idCliente = $_POST["idCliente"];
 		$idFormaPago		 = $_POST["idFormaPago"];
 		$comentario		 = $_POST["comentario"];
 		$idImpuesto		 = $_POST["idImpuesto"];
-		$idFactura = "";
-		$ocurrioError	 = 0;
+		$idFactura = 0;
+		$mensaje = "";
+		$error = 0;
+		$idDescuento = 2;
+
+
+		$sql_exec_sp_2 = '{call SP_insertarDetallesFacturas( ?, ?, ?, ?, ?)} ';
+		$detalles		= $_POST["detalles"];
+		$detalles = explode(',',$detalles);
+
+		$respuestaCliente = [];
+
 
 		$params = array(
-				array($detalles, SQLSRV_PARAM_IN),
 				array($idEmpleado, SQLSRV_PARAM_IN),
 				array($idCliente, SQLSRV_PARAM_IN),
 				array($idFormaPago, SQLSRV_PARAM_IN),
 				array($comentario, SQLSRV_PARAM_IN),				
 				array($idImpuesto, SQLSRV_PARAM_IN),
-				array(&$idFactura, SQLSRV_PARAM_IN),
+				array($idDescuento, SQLSRV_PARAM_IN),
+				array(&$idFactura, SQLSRV_PARAM_INOUT),
+				array(&$mensaje, SQLSRV_PARAM_INOUT),
+				array(&$error, SQLSRV_PARAM_INOUT),
 		);
 
 		$stmt =  $bd->ejecutarParams($sql_exec_sp, $params);
-		
-		$respuestaCliente= array();
-		$respuestaCliente["mensaje"] = "";
-		$respuestaCliente["ocurrioError"]= "";
 
+		$sql = "select max(idFactura) id from Facturas";
+
+		$stmt = $bd->ejecutar($sql);
+
+		$row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+
+		$idFactura = $row["id"];
+
+		if ($idFactura != 0) {
+			for($i = 0; $i < sizeof($detalles); $i++){
+				$params = array(
+					array($detalles[$i], SQLSRV_PARAM_IN),
+					array($idCliente, SQLSRV_PARAM_IN),
+					array($idFactura, SQLSRV_PARAM_IN),
+					array(&$mensaje, SQLSRV_PARAM_INOUT),
+					array(&$error, SQLSRV_PARAM_INOUT),
+				);
+
+				$stmt =  $bd->ejecutarParams($sql_exec_sp_2, $params);
+
+				$respuestaCliente[] = $mensaje;
+
+			}
+		}else{
+			$respuestaCliente[] = "factura no ingresada";
+		}
 
 		echo json_encode($respuestaCliente);
 

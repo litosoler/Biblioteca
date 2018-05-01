@@ -22,7 +22,7 @@
 									<li>Biblioteca: {{libro.biblioteca}}</li>
 								</div>
 								<div class="col-md-6">
-									<li>Autores: {{libro.autores}}</li>
+									<li>Autor: {{libro.autor}}</li>
 								</div>
 								<div class="col-md-6">
 									<li>Precio: {{libro.precioVenta}}</li>

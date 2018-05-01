@@ -5,8 +5,11 @@
 				<img src="@/assets/Logo.jpeg" class="img-fluid logo" alt="Bienvenido">
 			</div>
 			<div class="mensaje col-md-7" >
-				What is Lorem Ipsum?
-				Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+				“La verdadera universidad en nuestros días consiste en una colección de libros”. Thomas Carlyle
+				<br>
+				<br>
+				“He buscado por todas partes el sosiego y no lo he encontrado sino en un rincón apartado, con un libro en las manos”. Tomás Kempis
+
 			</div>
 		</section>
 		<section class="row search-row">
@@ -14,7 +17,7 @@
 				<div class="input-group mb-3">
 					<input type="text" class="form-control" placeholder="Encuentra tu libro" aria-label="Recipient's username" aria-describedby="basic-addon2" autofocus @keyup="buscar">
 					<div class="input-group-append green">
-						<button class="btn btn-default white" type="button"><router-link to="/resultados" >Buscar</router-link></button>
+						<button class="btn btn-default white" type="button" @click="buscar2">Buscar</button>
 					</div>
 				</div>	
 			</div>
@@ -37,6 +40,10 @@
 					this.$store.dispatch("realizarBusqueda",{cadena : this.$store.state.busquedaString})
 					this.$router.push("/resultados")
 				}
+			},
+			buscar2(){
+					this.$store.dispatch("realizarBusqueda",{cadena : this.$store.state.busquedaString})
+					this.$router.push("/resultados")
 			}
 		}
 	}

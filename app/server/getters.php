@@ -219,7 +219,15 @@ switch ($_GET['opcion']) {
 		// 		array(&$ocurrioError, SQLSRV_PARAM_INOUT)
 		// );
 
-		$sql = "Select * from libros l where l.nombreLibro like '%".$_POST["cadena"]."%'";
+		$sql = "Select l.nombreLibro, l.sinopsis, l.ISBN, l.precioVenta, l.paginas, CONCAT(a.pNombre, ' ', a.pApellido) autor, b.nombre biblioteca, CONCAT(ed.numeroEdicion, '(',ed.fechaEdicion,')') edicion, edi.nombreEditorial editorial from libros l
+		inner join LibrosXAutores la on la.idLibro = l.idLibro
+		inner join Autores a on a.idAutor = la.idAutor
+		inner join LibrosXEstantes le on le.idLibro = l.idLibro
+		inner join Estantes e on e.idEstante = le.idEstante
+		inner join Bibliotecas b on e.idBiblioteca = b.idBiblioteca
+		left join Ediciones ed on ed.idLibro = l.idLibro
+		left join Editoriales edi on edi.idEditorial = l.idEditorial
+		where l.nombreLibro like '%".$_POST["cadena"]."%'";
 
 		$tabla = array();
 		$stmt =  $bd->ejecutar( $sql);
@@ -228,7 +236,14 @@ switch ($_GET['opcion']) {
 
 		if( empty($row) ){
 
-			$sql = "Select * from libros l ";
+			$sql = "Select l.nombreLibro, l.sinopsis, l.ISBN, l.precioVenta, l.paginas, CONCAT(a.pNombre, ' ', a.pApellido) autor, b.nombre biblioteca, CONCAT(ed.numeroEdicion, '(',ed.fechaEdicion,')') edicion, edi.nombreEditorial editorial from libros l
+			inner join LibrosXAutores la on la.idLibro = l.idLibro
+			inner join Autores a on a.idAutor = la.idAutor
+			inner join LibrosXEstantes le on le.idLibro = l.idLibro
+			inner join Estantes e on e.idEstante = le.idEstante
+			inner join Bibliotecas b on e.idBiblioteca = b.idBiblioteca
+			left join Ediciones ed on ed.idLibro = l.idLibro
+			left join Editoriales edi on edi.idEditorial = l.idEditorial ";
 
 			$stmt =  $bd->ejecutar( $sql);
 

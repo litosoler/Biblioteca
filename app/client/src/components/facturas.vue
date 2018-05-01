@@ -29,7 +29,7 @@
 			<div class="col-2">
 				<div class="form-group" >
 					<label >Fecha:</label>
-					<input type="date" class="form-control" v-model="fecha" disabled="">
+					<input type="date" class="form-control" v-model="fecha" disabled="" style="width:unset">
 				</div>
 			</div>
 		</div>
@@ -166,13 +166,24 @@ export default{
 	        params.append('idEmpleado', factura.empleado);
 	        params.append('idCliente', factura.cliente);
 	        params.append('idFormaPago', factura.formaPago);
-	        params.append('comentario', factura.formaPago);
+	        params.append('comentario', factura.comentario);
 	        params.append('idImpuesto', factura.idImpuesto);
 
 
 	      	let respuesta = await Axios.post('/api/setters.php?opcion=3', params).then( resp =>  resp.data).catch(err => {console.log(err)});
 
-	      	console.log(respuesta)
+	      	alert("factura ingresada!!");
+	      	this.obtenerLibros();
+
+	      	detalles = [
+						{precioVenta: '' ,idLibro: ''},
+					]
+					this.subtotal = "0"
+					this.idCliente = ""
+					this.idFormaPago= ""
+					this.comentario = ""
+
+
     		}else{
     			alert("faltan datos importantes")
     		}
