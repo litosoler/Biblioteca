@@ -1,0 +1,3 @@
+host: den1.mssql5.gear.host
+user: libreria
+pwd: asd.456
