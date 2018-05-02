@@ -22,3 +22,6 @@ cualquier duda puedes comunicarte con nosotros a:
 2. hjsabillon@unah.hn
 3. acastillo@unah.hn
 
+
+nota: la carpeta principal 'Biblioteca' deberia estar en la ruta www/   del wamp
+
