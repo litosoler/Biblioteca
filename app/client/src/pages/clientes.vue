@@ -24,6 +24,17 @@
 				</v-list-tile-content>
 			</v-list-tile>
 		</router-link>
+		<v-divider></v-divider>
+		<v-list-tile>
+        <v-list-tile-action>
+          <v-icon>question_answer</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <a href="https://drive.google.com/file/d/1coB78MgMQH8vx-9dOPmvEJHtvFFBiikg/view?usp=sharing" target="new"
+          >Manual de Usuario</a>
+        </v-list-tile-content>
+    </v-list-tile>
+
 	</v-list>
 </v-navigation-drawer>
 <v-toolbar color="indigo" dark fixed app>

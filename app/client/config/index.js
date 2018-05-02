@@ -18,6 +18,8 @@ module.exports = {
               '^/api': ''
             }
         }
+        }
+
     },
 
     // Various Dev Server settings
