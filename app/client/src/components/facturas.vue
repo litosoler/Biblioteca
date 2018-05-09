@@ -175,7 +175,7 @@ export default{
 	      	alert("factura ingresada!!");
 	      	this.obtenerLibros();
 
-	      	detalles = [
+	      	this.detalles = [
 						{precioVenta: '' ,idLibro: ''},
 					]
 					this.subtotal = "0"
