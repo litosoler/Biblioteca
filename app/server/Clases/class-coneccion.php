@@ -1,6 +1,6 @@
 <?php
 	class Conexion{
-		private $serverName = "den1.mssql5.gear.host"; //serverName\instanceName
+		private $serverName = "den1.mssql6.gear.host"; //serverName\instanceName
 		private $connectionInfo = array( "Database"=>"libreria", "UID"=>"libreria", "PWD"=>"asd.456", "CharacterSet" => "UTF-8");
 		private $conn;
 
