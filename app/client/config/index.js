@@ -6,7 +6,6 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -17,7 +16,6 @@ module.exports = {
             pathRewrite: {
               '^/api': ''
             }
-        }
         }
 
     },
@@ -45,7 +43,6 @@ module.exports = {
 
     cssSourceMap: true,
   },
-
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
